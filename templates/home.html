@@ -1,0 +1,33 @@
+
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Home | My Library{% endblock %}
+
+{% block content %}
+
+<section class="text-center py-5">
+
+    <img
+        src="{% static 'images/logo.png' %}"
+        alt="My Library Logo"
+        class="img-fluid mb-4"
+        width="140"
+    >
+
+    <h1 class="display-4 fw-bold mb-3">
+        Welcome to Our Library
+    </h1>
+
+    <p class="lead text-muted mb-4">
+        Your journey into knowledge starts here.
+    </p>
+
+    <a href="{% url 'books' %}"
+       class="btn btn-success btn-lg">
+        Explore Books
+    </a>
+
+</section>
+
+{% endblock %}

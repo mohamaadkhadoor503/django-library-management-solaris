@@ -1,0 +1,71 @@
+
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}Books | My Library{% endblock %}
+
+{% block content %}
+
+<section>
+
+    <h1 class="fw-bold mb-4">
+        Available Books
+    </h1>
+
+    <div class="row g-4">
+
+        {% for book in books %}
+
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <div class="card h-100 shadow-sm">
+                <img
+    src="{% static book.image %}"
+    class="card-img-top book-cover"
+    alt="Cover of {{ book.title }}"
+    loading="lazy"
+>
+
+                <div class="card-body">
+
+                    <h5 class="card-title fw-bold">
+                        {{ book.title }}
+                    </h5>
+
+                    <p class="card-text text-muted">
+                        <strong>Author:</strong>
+                        {{ book.author }}
+                    </p>
+
+                    <p class="card-text">
+                        <strong>Year:</strong>
+                        {{ book.year }}
+                    </p>
+<div class="card-footer bg-transparent border-0 pb-3">
+
+    <a href="{% url 'book_detail' book.id %}"
+       class="btn btn-success w-100">
+        View Details
+    </a>
+
+</div>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+            <div class="alert alert-info">
+                No books are currently available.
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}
