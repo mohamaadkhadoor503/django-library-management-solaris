@@ -1,0 +1,11 @@
+{# A generated 3D book cover. Expects `book`; optional `size` ("sm" or "lg"). #}
+<div class="book3d {% if size %}book3d-{{ size }}{% endif %} cover-v{{ book.pk|stringformat:'d'|slice:'-1:' }}" aria-hidden="true">
+    <div class="book3d-inner">
+        <div class="book3d-front">
+            <span class="cover-ornament"></span>
+            <span class="cover-title">{{ book.title }}</span>
+            <span class="cover-author">{{ book.author.name }}</span>
+        </div>
+        <div class="book3d-pages"></div>
+    </div>
+</div>

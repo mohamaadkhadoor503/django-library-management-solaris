@@ -1,0 +1,69 @@
+{% extends 'main.html' %}
+
+{% block title %}Page Not Found | My Library{% endblock %}
+
+{% block content %}
+
+<section class="notfound">
+    <div class="aurora" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+        <span class="blob blob-3"></span>
+    </div>
+    <div class="hero-grid" aria-hidden="true"></div>
+
+    <!-- Loose pages drifting through the air -->
+    <div class="loose-pages" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="container position-relative text-center">
+
+        <div class="code-404 reveal" aria-hidden="true">
+            <span class="digit">4</span>
+            <div class="fallen-book">
+                <div class="book3d book3d-sm cover-v1">
+                    <div class="book3d-inner">
+                        <div class="book3d-front">
+                            <span class="cover-ornament"></span>
+                            <span class="cover-title">Page Not Found</span>
+                            <span class="cover-author">Error 404</span>
+                        </div>
+                        <div class="book3d-pages"></div>
+                    </div>
+                </div>
+            </div>
+            <span class="digit">4</span>
+        </div>
+
+        <span class="eyebrow reveal" style="--d: 1"><i class="bi bi-bookmark-x"></i> Error 404</span>
+
+        <h1 class="notfound-title reveal" style="--d: 1">
+            This page is missing from our shelves.
+        </h1>
+
+        <p class="notfound-lead reveal" style="--d: 2">
+            The page you're looking for may have been moved, borrowed,
+            or never existed.
+            <span class="path-pill">{{ request.path }}</span>
+        </p>
+
+        <form class="notfound-search reveal" style="--d: 3" action="{% url 'books' %}" method="get" role="search">
+            <i class="bi bi-search"></i>
+            <input type="search" name="q" placeholder="Search for a book or author…" aria-label="Search books">
+            <button type="submit" class="btn btn-brand btn-sm">Search</button>
+        </form>
+
+        <div class="d-flex flex-wrap justify-content-center gap-3 reveal" style="--d: 4">
+            <a href="{% url 'home' %}" class="btn btn-brand btn-lg magnetic">
+                <i class="bi bi-house"></i> Back to Home
+            </a>
+            <a href="{% url 'books' %}" class="btn btn-ghost btn-lg">
+                Browse Books <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

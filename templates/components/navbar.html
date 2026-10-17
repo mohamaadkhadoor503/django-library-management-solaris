@@ -1,58 +1,49 @@
-
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+{% with current=request.resolver_match.url_name %}
+<nav class="navbar navbar-expand-lg site-nav fixed-top">
     <div class="container">
 
-                <a class="navbar-brand d-flex align-items-center gap-2"
-   href="{% url 'home' %}">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'images/logo.png' %}" alt="My Library" class="site-logo">
+        </a>
 
-    <img
-        src="{% static 'images/logo.png' %}"
-        alt="My Library Logo"
-        class="site-logo"
-    >
-
-</a>
-
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarMenu"
-            aria-controls="navbarMenu"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-
-            <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+                aria-controls="navbarMenu" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
         </button>
 
-        <div class="collapse navbar-collapse"
-             id="navbarMenu">
-
-            <ul class="navbar-nav ms-auto">
-
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
                 <li class="nav-item">
-                    <a class="nav-link"
+                    <a class="nav-link {% if current == 'home' %}active{% endif %}"
+                       {% if current == 'home' %}aria-current="page"{% endif %}
                        href="{% url 'home' %}">
-                        Home
+                        <i class="bi bi-house"></i> Home
                     </a>
                 </li>
-                
-
                 <li class="nav-item">
-                    <a class="nav-link"
+                    <a class="nav-link {% if current == 'books' or current == 'book_detail' %}active{% endif %}"
+                       {% if current == 'books' %}aria-current="page"{% endif %}
                        href="{% url 'books' %}">
-                        Books
+                        <i class="bi bi-book"></i> Books
                     </a>
                 </li>
                 <li class="nav-item">
-    <a class="nav-link" href="{% url 'dashboard' %}">
-        Dashboard
-    </a>
-</li>
-
+                    <a class="nav-link {% if current == 'dashboard' %}active{% endif %}"
+                       {% if current == 'dashboard' %}aria-current="page"{% endif %}
+                       href="{% url 'dashboard' %}">
+                        <i class="bi bi-grid-1x2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item ms-lg-2">
+                    <a class="btn btn-brand btn-sm" href="{% url 'admin:index' %}">
+                        <i class="bi bi-shield-lock"></i> Admin
+                    </a>
+                </li>
             </ul>
-
         </div>
     </div>
 </nav>
+{% endwith %}

@@ -1,54 +1,92 @@
-
 {% extends 'main.html' %}
-{% load static %}
+
 {% block title %}{{ book.title }} | My Library{% endblock %}
 
 {% block content %}
 
-<section class="row justify-content-center">
-
-    <div class="col-12 col-md-8 col-lg-6">
-
-        <div class="card shadow-sm">
-
-            <div class="card-body p-4">
-<div class="text-center mb-4">
-    <img
-        src="{% static book.image %}"
-        class="img-fluid book-detail-cover"
-        alt="Cover of {{ book.title }}"
-    >
-</div>
-                <h1 class="card-title fw-bold mb-4">
-                    {{ book.title }}
-                </h1>
-
-                <p>
-                    <strong>Book ID:</strong>
-                    {{ book.id }}
-                </p>
-
-                <p>
-                    <strong>Author:</strong>
-                    {{ book.author }}
-                </p>
-
-                <p>
-                    <strong>Publication Year:</strong>
-                    {{ book.year }}
-                </p>
-
-                <a href="{% url 'books' %}"
-                   class="btn btn-outline-success mt-3">
-                    Back to Books
-                </a>
-
-            </div>
-
-        </div>
-
+<section class="detail-hero">
+    <div class="aurora" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-3"></span>
     </div>
 
+    <div class="container position-relative">
+        <nav aria-label="breadcrumb" class="reveal">
+            <ol class="crumbs">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'books' %}">Books</a></li>
+                <li aria-current="page">{{ book.title }}</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-center gy-5">
+            <div class="col-lg-5 text-center">
+                <div class="detail-cover reveal">
+                    {% include 'components/book_cover.html' with book=book size='lg' %}
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="tag-list mb-3 reveal" style="--d: 1">
+                    {% for category in book.categories.all %}
+                        <span class="tag tag-light">{{ category.name }}</span>
+                    {% empty %}
+                        <span class="tag tag-light">Uncategorized</span>
+                    {% endfor %}
+                </div>
+
+                <h1 class="detail-title reveal" style="--d: 1">{{ book.title }}</h1>
+
+                <div class="meta-row reveal" style="--d: 2">
+                    <div class="meta-item">
+                        <span class="meta-avatar">{{ book.author.name|slice:":1" }}</span>
+                        <div>
+                            <span class="meta-label">Author</span>
+                            <span class="meta-value">{{ book.author.name }}</span>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon"><i class="bi bi-calendar3"></i></span>
+                        <div>
+                            <span class="meta-label">Published</span>
+                            <span class="meta-value">{{ book.published_date|date:"F j, Y"|default:"Unknown" }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container section">
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="panel reveal">
+                <h2 class="panel-title"><i class="bi bi-text-paragraph"></i> Description</h2>
+                <p class="description">
+                    {{ book.description|default:"No description available."|linebreaksbr }}
+                </p>
+                <a href="{% url 'books' %}" class="btn btn-outline-brand mt-2">
+                    <i class="bi bi-arrow-left"></i> Back to Books
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="panel reveal" style="--d: 1">
+                <h2 class="panel-title"><i class="bi bi-person-lines-fill"></i> More by {{ book.author.name }}</h2>
+                {% for related in related_books %}
+                <a href="{{ related.get_absolute_url }}" class="related-item">
+                    <span class="related-dot cover-v{{ related.pk|stringformat:'d'|slice:'-1:' }}"></span>
+                    <span>{{ related.title }}</span>
+                    <i class="bi bi-chevron-right ms-auto"></i>
+                </a>
+                {% empty %}
+                <p class="text-muted mb-0">No other books by this author yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </section>
 
 {% endblock %}

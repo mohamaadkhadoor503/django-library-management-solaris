@@ -1,69 +1,95 @@
-
 {% extends 'main.html' %}
-{% load static %}
+
 {% block title %}Books | My Library{% endblock %}
 
 {% block content %}
 
-<section>
+<section class="page-hero">
+    <div class="aurora" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+    </div>
+    <div class="container position-relative">
+        <span class="eyebrow reveal"><i class="bi bi-book"></i> The Collection</span>
+        <h1 class="page-title reveal" style="--d: 1">Available Books</h1>
+        <p class="page-lead reveal" style="--d: 2">
+            {{ books|length }} book{{ books|length|pluralize }} waiting to be discovered.
+        </p>
+    </div>
+</section>
 
-    <h1 class="fw-bold mb-4">
-        Available Books
-    </h1>
+<section class="container section pt-0">
 
-    <div class="row g-4">
+    {% if books %}
+    <div class="toolbar reveal">
+        <label class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="search" id="bookSearch" placeholder="Search by title or author…" autocomplete="off" aria-label="Search books">
+        </label>
+        <div class="chip-group" role="group" aria-label="Filter by category">
+            <button type="button" class="chip active" data-filter="all">All</button>
+            {% for category in categories %}
+            <button type="button" class="chip" data-filter="{{ category.name|lower }}">{{ category.name }}</button>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row g-4" id="bookGrid">
 
         {% for book in books %}
+        <div class="col-12 col-sm-6 col-lg-4 book-col reveal"
+             data-search="{{ book.title|lower }} {{ book.author.name|lower }}"
+             data-categories="{% for category in book.categories.all %}{{ category.name|lower }}|{% endfor %}">
 
-        <div class="col-12 col-md-6 col-lg-4">
+            <article class="book-card tilt">
+                <a href="{{ book.get_absolute_url }}" class="book-card-cover" tabindex="-1" aria-hidden="true">
+                    {% include 'components/book_cover.html' with book=book size='sm' %}
+                </a>
 
-            <div class="card h-100 shadow-sm">
-                <img
-    src="{% static book.image %}"
-    class="card-img-top book-cover"
-    alt="Cover of {{ book.title }}"
-    loading="lazy"
->
+                <div class="book-card-body">
+                    <h2 class="book-card-title">
+                        <a href="{{ book.get_absolute_url }}" class="stretched-link">{{ book.title }}</a>
+                    </h2>
 
-                <div class="card-body">
-
-                    <h5 class="card-title fw-bold">
-                        {{ book.title }}
-                    </h5>
-
-                    <p class="card-text text-muted">
-                        <strong>Author:</strong>
-                        {{ book.author }}
+                    <p class="book-card-author">
+                        <i class="bi bi-person-circle"></i> {{ book.author.name }}
                     </p>
 
-                    <p class="card-text">
-                        <strong>Year:</strong>
-                        {{ book.year }}
-                    </p>
-<div class="card-footer bg-transparent border-0 pb-3">
-
-    <a href="{% url 'book_detail' book.id %}"
-       class="btn btn-success w-100">
-        View Details
-    </a>
-
-</div>
+                    <div class="tag-list">
+                        {% for category in book.categories.all %}
+                            <span class="tag">{{ category.name }}</span>
+                        {% empty %}
+                            <span class="tag tag-muted">Uncategorized</span>
+                        {% endfor %}
+                    </div>
                 </div>
 
-            </div>
-
+                <div class="book-card-footer">
+                    <span>View Details</span>
+                    <i class="bi bi-arrow-right"></i>
+                </div>
+            </article>
         </div>
 
         {% empty %}
 
         <div class="col-12">
-            <div class="alert alert-info">
-                No books are currently available.
+            <div class="empty-state reveal">
+                <i class="bi bi-journal-x"></i>
+                <h2>No books available.</h2>
+                <p>Add books from the admin panel and they will show up here.</p>
             </div>
         </div>
 
         {% endfor %}
 
+    </div>
+
+    <div class="empty-state d-none" id="noResults">
+        <i class="bi bi-search"></i>
+        <h2>No matching books</h2>
+        <p>Try a different search term or category.</p>
     </div>
 
 </section>

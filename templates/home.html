@@ -1,33 +1,127 @@
-
 {% extends 'main.html' %}
-{% load static %}
 
 {% block title %}Home | My Library{% endblock %}
 
 {% block content %}
 
-<section class="text-center py-5">
+<!-- Hero -->
+<section class="hero">
+    <div class="aurora" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+        <span class="blob blob-3"></span>
+    </div>
+    <div class="hero-grid" aria-hidden="true"></div>
 
-    <img
-        src="{% static 'images/logo.png' %}"
-        alt="My Library Logo"
-        class="img-fluid mb-4"
-        width="140"
-    >
+    <div class="container position-relative">
+        <div class="row align-items-center gy-5">
+            <div class="col-lg-6">
+                <span class="eyebrow reveal"><i class="bi bi-stars"></i> Welcome to Our Library</span>
+                <h1 class="hero-title reveal" style="--d: 1">
+                    Where every page<br>opens a <span class="text-gradient">new world</span>.
+                </h1>
+                <p class="hero-lead reveal" style="--d: 2">
+                    Your journey into knowledge starts here. Browse our collection,
+                    discover new authors and explore categories you love.
+                </p>
+                <div class="d-flex flex-wrap gap-3 reveal" style="--d: 3">
+                    <a href="{% url 'books' %}" class="btn btn-brand btn-lg magnetic">
+                        Explore Books <i class="bi bi-arrow-right"></i>
+                    </a>
+                    <a href="{% url 'dashboard' %}" class="btn btn-ghost btn-lg">
+                        <i class="bi bi-bar-chart"></i> View Dashboard
+                    </a>
+                </div>
+            </div>
 
-    <h1 class="display-4 fw-bold mb-3">
-        Welcome to Our Library
-    </h1>
+            <div class="col-lg-6">
+                <div class="hero-shelf reveal" style="--d: 2">
+                    {% for book in latest_books %}
+                    <a href="{{ book.get_absolute_url }}" class="hero-book hero-book-{{ forloop.counter }}" aria-label="{{ book.title }}">
+                        {% include 'components/book_cover.html' with book=book %}
+                    </a>
+                    {% empty %}
+                    <div class="hero-empty">
+                        <i class="bi bi-journal-bookmark"></i>
+                        <p class="mb-0">Books you add will appear here.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <p class="lead text-muted mb-4">
-        Your journey into knowledge starts here.
-    </p>
+<!-- Stats -->
+<section class="container stats-strip">
+    <div class="row g-3 g-md-4">
+        <div class="col-4">
+            <div class="stat-card reveal">
+                <i class="bi bi-book stat-icon"></i>
+                <span class="stat-number" data-count="{{ total_books }}">{{ total_books }}</span>
+                <span class="stat-label">Book{{ total_books|pluralize }}</span>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="stat-card reveal" style="--d: 1">
+                <i class="bi bi-person-badge stat-icon"></i>
+                <span class="stat-number" data-count="{{ total_authors }}">{{ total_authors }}</span>
+                <span class="stat-label">Author{{ total_authors|pluralize }}</span>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="stat-card reveal" style="--d: 2">
+                <i class="bi bi-tags stat-icon"></i>
+                <span class="stat-number" data-count="{{ total_categories }}">{{ total_categories }}</span>
+                <span class="stat-label">Categor{{ total_categories|pluralize:"y,ies" }}</span>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <a href="{% url 'books' %}"
-       class="btn btn-success btn-lg">
-        Explore Books
-    </a>
+<!-- Features -->
+<section class="container section">
+    <div class="section-head text-center reveal">
+        <span class="eyebrow eyebrow-dark">Why My Library</span>
+        <h2 class="section-title">Everything you need to explore books</h2>
+    </div>
 
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="feature-card reveal">
+                <div class="feature-icon"><i class="bi bi-collection"></i></div>
+                <h3>Curated Collection</h3>
+                <p>Every book is linked to its author and organized into clear categories.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card reveal" style="--d: 1">
+                <div class="feature-icon"><i class="bi bi-search-heart"></i></div>
+                <h3>Instant Search</h3>
+                <p>Filter books by title, author or category as you type — no waiting.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card reveal" style="--d: 2">
+                <div class="feature-icon"><i class="bi bi-graph-up-arrow"></i></div>
+                <h3>Live Insights</h3>
+                <p>See how the collection grows with a dashboard of up-to-date statistics.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="container section pt-0">
+    <div class="cta-band reveal">
+        <div>
+            <h2>Ready to find your next read?</h2>
+            <p class="mb-0">Browse the full collection and dive into the details.</p>
+        </div>
+        <a href="{% url 'books' %}" class="btn btn-light btn-lg magnetic">
+            Browse Books <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
 </section>
 
 {% endblock %}

@@ -1,7 +1,19 @@
-<footer class="bg-dark text-white text-center py-3">
+<footer class="site-footer">
     <div class="container">
-        <p class="mb-0">
-            &copy; 2026 My Library. All rights reserved.
-        </p>
+        <div class="row gy-4 align-items-center">
+            <div class="col-md-6">
+                <p class="footer-brand mb-1"><i class="bi bi-book-half"></i> My Library</p>
+                <p class="footer-muted mb-0">Your journey into knowledge starts here.</p>
+            </div>
+            <div class="col-md-6">
+                <ul class="footer-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'books' %}">Books</a></li>
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <p class="footer-muted text-center mb-0">&copy; 2026 My Library. All rights reserved.</p>
     </div>
 </footer>
